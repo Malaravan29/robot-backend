@@ -33,5 +33,34 @@ export const getUserDetails = async (req, res) => {
   }
 };
 
+// Update user's phone number
+export const updateUserPhoneNumber = async (req, res) => {
+  try {
+    const userId = req.user.id; // Extract user ID from the authenticated user
+    const { phoneNumber } = req.body; // Extract new phone number from request body
+
+    // Validate the phone number
+    if (!phoneNumber || phoneNumber.length < 10) {
+      return res.status(400).json({ message: "Please provide a valid phone number" });
+    }
+
+    // Update user's phone number
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { phoneNumber },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "Phone number updated successfully", phoneNumber: updatedUser.phoneNumber });
+  } catch (error) {
+    console.error('Error updating phone number:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
 
