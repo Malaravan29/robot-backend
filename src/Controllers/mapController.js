@@ -50,7 +50,7 @@ export const saveMappingData = async (req, res) => {
     if (
       !userId ||
       !robotId ||
-      !ROBOT_IDS.includes(robotId) ||  
+      !ROBOT_IDS.includes(robotId) ||
       !mode ||
       !feedback ||
       !linear_velocity ||
@@ -66,7 +66,7 @@ export const saveMappingData = async (req, res) => {
     ) {
       return res.status(400).json({
         success: false,
-        message: "All required fields must be provided and valid.",
+        message: "Missing required fields. Ensure all fields are provided and contain valid data.",
       });
     }
  
