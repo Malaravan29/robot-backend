@@ -8,5 +8,4 @@ const router = Router();
 router.post('/robotmsgs', verifyToken, createRobotmsg); 
 
 
-
 export default router;
