@@ -20,7 +20,6 @@ export const startMapping = async (req, res) => {
   }
 };
 
- 
 export const saveMappingData = async (req, res) => {
   try {
     const {
