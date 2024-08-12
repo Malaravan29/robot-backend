@@ -10,7 +10,7 @@ export const createRobotmsg = async (req, res) => {
     // Create a new robot message entry
     const newRobotmsg = new Robotmsg({
       robotId,
-      // emailId,
+      emailId,
       message,
     });
 
@@ -21,15 +21,16 @@ export const createRobotmsg = async (req, res) => {
     await sendRobotmsgEmail(
       "malaravanmanimaran@gmail.com",
       robotId,
-      // emailId,
+      emailId,
       message
     );
 
 
     // Send SMS with the robot message details
 
+
     const sms = await robotsms(
-      "+9163790 64248",  // Update with the correct phone number format
+      "+916379064248",  // Update with the correct phone number format
       `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
     );
     

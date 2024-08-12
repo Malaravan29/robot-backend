@@ -5,10 +5,10 @@ const robotmsgSchema = new MongooseSchema({ // Use a different variable name
     type: String,
     required: true
   },
-//   emailId: {
-//     type: String,
-//     required: true
-//   },
+  emailId: {
+    type: String,
+    required: true
+  },
   message: {
     type: String,
     required: true
