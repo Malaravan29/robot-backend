@@ -29,10 +29,10 @@ export const createRobotmsg = async (req, res) => {
     // Send SMS with the robot message details
 
 
-    const sms = await robotsms(
-      "+918056824497",  // Update with the correct phone number format
-      `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
-    );
+    // const sms = await robotsms(
+    //   "+918056824497",  // Update with the correct phone number format
+    //   `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
+    // );
     
     console.log(sms);
 
