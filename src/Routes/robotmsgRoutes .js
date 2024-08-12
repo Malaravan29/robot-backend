@@ -5,7 +5,7 @@ import { verifyToken } from '../Middleware/authMiddleware.js'; // Import your mi
 const router = Router();
 
 // Route to create a new robot message
-router.post('/robotmsg', verifyToken, createRobotmsg); 
+router.post('/robotmsgs', verifyToken, createRobotmsg); 
 
 
 
