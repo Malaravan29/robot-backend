@@ -1,6 +1,6 @@
 import { Schema as MongooseSchema, model } from 'mongoose'; // Renaming imported Schema to MongooseSchema
 
-const robotmsgSchema = new MongooseSchema({ // Use a different variable name
+const robotmsgSchema = new MongooseSchema({ 
   robotId: {
     type: String,
     required: true
@@ -19,6 +19,6 @@ const robotmsgSchema = new MongooseSchema({ // Use a different variable name
   }
 });
 
-const Robotmsg = model('Robotmsg', robotmsgSchema); // Pass the correctly named schema
+const Robotmsg = model('Robotmsg', robotmsgSchema); 
 
 export default Robotmsg;
