@@ -34,7 +34,7 @@ export const createRobotmsg = async (req, res) => {
     //   `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
     // );
     
-    console.log(sms);
+    // console.log(sms);
 
     res.status(201).json({
       success: true,
