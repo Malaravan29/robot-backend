@@ -1,6 +1,6 @@
 import Robotmsg from "../Models/Robotmsg.js";
 import { sendRobotmsgEmail } from "../utils/robotmsg.js";
-import { robotsms } from "../utils/robotsms.js";
+// import { robotsms } from "../utils/robotsms.js";
 
 // Create a new robot message entry
 export const createRobotmsg = async (req, res) => {
