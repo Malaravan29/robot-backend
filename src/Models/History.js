@@ -1,17 +1,23 @@
 import { Schema, model } from "mongoose";
 
-const vectorSchema = new Schema({
-  x: { type: Number, required: true },
-  y: { type: Number, required: true },
-  z: { type: Number, required: true },
-}, { _id: false });
+const vectorSchema = new Schema(
+  {
+    x: { type: Number, required: true },
+    y: { type: Number, required: true },
+    z: { type: Number, required: true },
+  },
+  { _id: false }
+);
 
-const orientationSchema = new Schema({
-  x: { type: Number, required: true },
-  y: { type: Number, required: true },
-  z: { type: Number, required: true },
-  w: { type: Number, required: true },
-}, { _id: false });
+const orientationSchema = new Schema(
+  {
+    x: { type: Number, required: true },
+    y: { type: Number, required: true },
+    z: { type: Number, required: true },
+    w: { type: Number, required: true },
+  },
+  { _id: false }
+);
 
 const historySchema = new Schema({
   robotName: { type: String, required: true },
@@ -21,10 +27,11 @@ const historySchema = new Schema({
   timeTaken: { type: Number, required: true },
   percentCompleted: { type: Number, required: true },
   status: { type: String, required: true },
-  linearVelocities: [vectorSchema],  
-  angularVelocities: [vectorSchema],  
-  positions: [vectorSchema], 
-  orientations: [orientationSchema], 
+  linear_velocity: [vectorSchema],
+  angular_velocity: [vectorSchema],
+  position: [vectorSchema],
+  orientation: [orientationSchema],
+
 });
 
 const History = model("History", historySchema);
