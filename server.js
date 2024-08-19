@@ -13,7 +13,7 @@ import history from './src/Routes/history.js';
 import robot from './src/Routes/robot.js'
 import robotmsgRoutes from "./src/Routes/robotmsgRoutes.js"
 
-
+import singleMap from "./src/Routes/singleMap.js"
 
 dotenv.config();
 
@@ -25,6 +25,8 @@ app.use(express.json());
 app.use(verifyToken); // Ensure token verification middleware is used correctly
 
 //Routes
+app.use('/',singleMap)
+
 app.use('/', adminRouter);
 app.use('/', authRoutes);
 app.use('/', robotRoutes);
