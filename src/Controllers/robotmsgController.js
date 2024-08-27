@@ -1,15 +1,32 @@
-
 import Robotmsg from "../Models/Robotmsg.js";
 import { sendRobotmsgEmail } from "../utils/robotmsg.js";
-// import { robotsms } from "../utils/robotsms.js";
+import { robotsms } from "../utils/robotsms.js";
 
 // Create a new robot message entry
 export const createRobotmsg = async (req, res) => {
   try {
-    const { robotId, emailId, message, camera_image1,camera_image2,camera_image3,camera_image4,map_image } = req.body;
+    const {
+      robotId,
+      emailId,
+      message,
+      camera_image1,
+      camera_image2,
+      camera_image3,
+      camera_image4,
+      map_image,
+    } = req.body;
 
     // Validate required fields
-    if (!robotId || !emailId || !message || !camera_image1|| !camera_image2|| !camera_image3|| !camera_image4|| !map_image) {
+    if (
+      !robotId ||
+      !emailId ||
+      !message ||
+      !camera_image1 ||
+      !camera_image2 ||
+      !camera_image3 ||
+      !camera_image4 ||
+      !map_image
+    ) {
       return res.status(400).json({
         success: false,
         message: "All required fields must be provided.",
@@ -41,14 +58,14 @@ export const createRobotmsg = async (req, res) => {
       camera_image2,
       camera_image3,
       camera_image4,
-      map_image,// Pass the camera_image here
+      map_image // Pass the camera_image here
     );
 
     // Uncomment to send SMS
-    // await robotsms(
-    //   "+918056824497",  // Update with the correct phone number format
-    //   `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
-    // );
+    await robotsms(
+      "+918056824497", // Update with the correct phone number format
+      `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
+    );
 
     res.status(201).json({
       success: true,
