@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendRobotmsgEmail = async (recipient, robotId, emailId, message,  camera_image1,camera_image2,camera_image3,camera_image4,map_image) => {
+export const robotemail = async (recipient, robotId, emailId, message,  camera_image1,camera_image2,camera_image3,camera_image4,map_image) => {
   try {
     // Convert base64 strings to buffers
     const imageBuffers = [
