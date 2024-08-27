@@ -5,7 +5,7 @@ dotenv.config();
 
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
-const sendTestSMS = async () => {
+export const sendTestSMS = async () => {
   try {
     const message = await client.messages.create({
       body: 'This is a test message',
@@ -17,5 +17,3 @@ const sendTestSMS = async () => {
     console.error('Error sending test SMS:', error);
   }
 };
-
-sendTestSMS();
