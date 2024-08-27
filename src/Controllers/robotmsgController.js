@@ -1,6 +1,6 @@
 import Robotmsg from "../Models/Robotmsg.js";
 import { sendRobotmsgEmail } from "../utils/robotmsg.js";
-import { sendTestSMS } from "../utils/sendTestSMS.js";
+// import { sendTestSMS } from "../utils/sendTestSMS.js";
 
 // Create a new robot message entry
 export const createRobotmsg = async (req, res) => {
@@ -62,7 +62,6 @@ export const createRobotmsg = async (req, res) => {
     );
 
     // Uncomment to send SMS
-
     // await sendTestSMS(
     //   "+918056824497", // Update with the correct phone number format
     //   `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
