@@ -13,10 +13,8 @@ const robotmsgSchema = new MongooseSchema({
     type: String,
     required: true
   },
-  camera_image1: { type: String, required: true },
-  camera_image2: { type: String, required: true },
-  camera_image3: { type: String, required: true },
-  camera_image4: { type: String, required: true },
+  camera_images: [{ type: String, required: true }],
+ 
   map_image: { type: String, required: true },
   createdAt: {
     type: Date,
