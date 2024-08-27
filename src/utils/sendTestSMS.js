@@ -8,9 +8,9 @@ const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TO
 export const sendTestSMS = async () => {
   try {
     const message = await client.messages.create({
-      body: 'This is a test message',
+      body: body,
       from: process.env.TWILIO_PHONE_NUMBER,
-      to: '+1234567890' // Replace with a valid phone number
+      to: to 
     });
     console.log('Test SMS sent successfully:', message.sid);
   } catch (error) {
