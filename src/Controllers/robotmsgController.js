@@ -1,7 +1,6 @@
 import Robotmsg from "../Models/Robotmsg.js";
 import { robotemail } from "../utils/robotemail.js";
 // import { sendTestSMS } from "../utils/sendTestSMS.js";
-import { robotwats } from "../utils/robotwats.js";
 
 // Create a new robot message entry
 export const createRobotmsg = async (req, res) => {
@@ -67,12 +66,6 @@ export const createRobotmsg = async (req, res) => {
     //   "+918056824497", // Update with the correct phone number format
     //   `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
     // );
-    
-    //  to send wats
-    await robotwats(
-      "+918056824497",
-      `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
-    );
 
     res.status(201).json({
       success: true,
