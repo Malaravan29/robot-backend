@@ -1,6 +1,7 @@
-import StartMappingData from "../Models/startMapping.js"
+import StartMappingData from "../Models/Mapping.js";
 import History from "../Models/History.js";
 import { Buffer } from "buffer";
+import AutomatedDisinfectantData from "../Models/automatedDisinfectant.js";
 const ROBOT_IDS = [
   "0001",
   "0002",
@@ -13,20 +14,20 @@ const ROBOT_IDS = [
   "0009",
   "0010",
 ];
+
 export const saveMappingData = async (req, res) => {
   try {
     const {
-      type,
+      mode,
       userId,
       robotId,
       robotName,
-      mode,
       feedback,
       linear_velocity = [],
       angular_velocity = [],
       current_position = [],
       current_orientation = [],
-      map_image,
+      map_image = [],
       completion_command,
       map_name,
       timeTaken,
@@ -34,17 +35,26 @@ export const saveMappingData = async (req, res) => {
       percentageCompleted,
       position,
       orientation,
+      object_image,
+      object_feedback,
     } = req.body;
-    console.log("user requet body :", req.body);
 
-    if (!type || (type !== "automatic" && type !== "manual")) {
+    console.log("user request body:", req.body);
+
+    if (
+      !mode ||
+      (mode !== "automatic" &&
+        mode !== "manual" &&
+        mode !== "AutomatedDisinfectant")
+    ) {
       return res.status(400).json({
         success: false,
-        message: "Invalid or missing type. Expected 'automatic' or 'manual'.",
+        message:
+          "Invalid or missing mode. Expected 'automatic', 'manual', or 'Automated Disinfectant'.",
       });
     }
 
-    if (type === "automatic") {
+    if (mode === "automatic") {
       if (!robotId || !ROBOT_IDS.includes(robotId)) {
         return res.status(400).json({
           success: false,
@@ -54,7 +64,6 @@ export const saveMappingData = async (req, res) => {
 
       if (
         !userId ||
-        !mode ||
         !feedback ||
         !Array.isArray(linear_velocity) ||
         !Array.isArray(angular_velocity) ||
@@ -78,7 +87,6 @@ export const saveMappingData = async (req, res) => {
       const startMappingData = new StartMappingData({
         userId,
         robotId,
-        mode,
         feedback,
         linear_velocity,
         angular_velocity,
@@ -93,15 +101,17 @@ export const saveMappingData = async (req, res) => {
       });
 
       await startMappingData.save();
-      console.log("startmapping data is:", startMappingData);
+      console.log("start mapping data is:", startMappingData);
       return res.status(201).json({
         success: true,
         message: "Automatic mapping data saved successfully.",
         data: startMappingData,
       });
-    } else if (type === "manual") {
+    } else if (mode === "manual") {
       if (
+        !userId ||
         !robotName ||
+        !robotId ||
         !map_name ||
         !map_image ||
         !timeTaken ||
@@ -121,6 +131,8 @@ export const saveMappingData = async (req, res) => {
       const imageBase64 = Buffer.from(map_image, "base64").toString("base64");
 
       const history = new History({
+        userId,
+        robotId,
         robotName,
         mapName: map_name,
         image: imageBase64,
@@ -134,15 +146,53 @@ export const saveMappingData = async (req, res) => {
       });
 
       await history.save();
-      console.log("manual mapping data is :", history);
+      console.log("manual mapping data is:", history);
       return res.status(201).json({
         success: true,
         message: "Manual mapping data saved successfully.",
         data: history,
       });
+    } else if (mode === "AutomatedDisinfectant") {
+      if (
+        !userId ||
+        !feedback ||
+        !position ||
+        !orientation ||
+        !map_image.length ||
+        !object_image ||
+        !object_feedback
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Missing required fields or invalid data types for Automated Disinfectant mode.",
+        });
+      }
+
+      const mapImagesBase64 = map_image.map((image) =>
+        Buffer.from(image, "base64").toString("base64")
+      );
+      //console.log("map Image :", mapImagesBase64);
+      const disinfectantData = new AutomatedDisinfectantData({
+        userId,
+        feedback,
+        position,
+        orientation,
+        map_image: mapImagesBase64,
+        object_image,
+        object_feedback,
+      });
+
+      await disinfectantData.save();
+      //console.log("Automated Disinfectant data is:", disinfectantData);
+      return res.status(201).json({
+        success: true,
+        message: "Automated Disinfectant data saved successfully.",
+        data: disinfectantData,
+      });
     }
   } catch (error) {
-    console.error("Error saving mapping data:", error.message);
+    //console.error("Error saving mapping data:", error.message);
     return res.status(500).json({
       success: false,
       message: "An error occurred while saving mapping data.",
