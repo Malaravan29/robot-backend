@@ -1,5 +1,6 @@
 import StartMappingData from "../Models/Mapping.js";
 import History from "../Models/History.js";
+import crypto from "crypto";
 import { Buffer } from "buffer";
 import AutomatedDisinfectantData from "../Models/automatedDisinfectant.js";
 const ROBOT_IDS = [
@@ -14,7 +15,9 @@ const ROBOT_IDS = [
   "0009",
   "0010",
 ];
-
+const generateUniqueId = () => {
+  return crypto.randomBytes(10).toString("hex"); // 20 characters
+};
 export const saveMappingData = async (req, res) => {
   try {
     const {
@@ -168,17 +171,14 @@ export const saveMappingData = async (req, res) => {
             "Missing required fields or invalid data types for Automated Disinfectant mode.",
         });
       }
+      const uniqueMapImageId = generateUniqueId();
 
-      const mapImagesBase64 = map_image.map((image) =>
-        Buffer.from(image, "base64").toString("base64")
-      );
-      //console.log("map Image :", mapImagesBase64);
       const disinfectantData = new AutomatedDisinfectantData({
         userId,
         feedback,
         position,
         orientation,
-        map_image: mapImagesBase64,
+        map_image: uniqueMapImageId,
         object_image,
         object_feedback,
       });
