@@ -33,9 +33,9 @@ const automatedDisinfectantDataSchema = new mongoose.Schema(
     orientation: [orientationSchema],
     date: { type: Date, default: Date.now },
     map_image: [{
-      type: String,
+      type: Buffer,
       required: true,
-    }],
+  }],
     object_image: {
       type: String,
       required: true,

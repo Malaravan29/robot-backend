@@ -1,8 +1,7 @@
 import StartMappingData from "../Models/Mapping.js";
 import History from "../Models/History.js";
-import crypto from "crypto";
-import { Buffer } from "buffer";
 import AutomatedDisinfectantData from "../Models/automatedDisinfectant.js";
+
 const ROBOT_IDS = [
   "0001",
   "0002",
@@ -15,9 +14,7 @@ const ROBOT_IDS = [
   "0009",
   "0010",
 ];
-const generateUniqueId = () => {
-  return crypto.randomBytes(10).toString("hex"); // 20 characters
-};
+
 export const saveMappingData = async (req, res) => {
   try {
     const {
@@ -38,11 +35,9 @@ export const saveMappingData = async (req, res) => {
       percentageCompleted,
       position,
       orientation,
-      object_image,
+      object_image_name,
       object_feedback,
     } = req.body;
-
-    console.log("user request body:", req.body);
 
     if (
       !mode ||
@@ -85,7 +80,7 @@ export const saveMappingData = async (req, res) => {
         });
       }
 
-      const imageBase64 = Buffer.from(map_image, "base64").toString("base64");
+      const mapImageBuffer = Buffer.from(map_image, "binary");
 
       const startMappingData = new StartMappingData({
         userId,
@@ -95,7 +90,7 @@ export const saveMappingData = async (req, res) => {
         angular_velocity,
         current_position,
         current_orientation,
-        map_image: imageBase64,
+        map_image: mapImageBuffer,
         completion_command,
         map_name,
         timeTaken,
@@ -104,7 +99,6 @@ export const saveMappingData = async (req, res) => {
       });
 
       await startMappingData.save();
-      console.log("start mapping data is:", startMappingData);
       return res.status(201).json({
         success: true,
         message: "Automatic mapping data saved successfully.",
@@ -131,14 +125,14 @@ export const saveMappingData = async (req, res) => {
         });
       }
 
-      const imageBase64 = Buffer.from(map_image, "base64").toString("base64");
+      const mapImageBuffer = Buffer.from(map_image, "binary");
 
       const history = new History({
         userId,
         robotId,
         robotName,
         mapName: map_name,
-        image: imageBase64,
+        image: mapImageBuffer,
         timeTaken,
         percentCompleted: percentageCompleted,
         status,
@@ -149,7 +143,6 @@ export const saveMappingData = async (req, res) => {
       });
 
       await history.save();
-      console.log("manual mapping data is:", history);
       return res.status(201).json({
         success: true,
         message: "Manual mapping data saved successfully.",
@@ -162,7 +155,7 @@ export const saveMappingData = async (req, res) => {
         !position ||
         !orientation ||
         !map_image.length ||
-        !object_image ||
+        !object_image_name ||
         !object_feedback
       ) {
         return res.status(400).json({
@@ -171,20 +164,23 @@ export const saveMappingData = async (req, res) => {
             "Missing required fields or invalid data types for Automated Disinfectant mode.",
         });
       }
-      const uniqueMapImageId = generateUniqueId();
+
+      const mapImagesBuffer = map_image.map((image) =>
+        Buffer.from(image, "binary")
+      );
+      // const objectImageBuffer = Buffer.from(object_image_name, "binary");
 
       const disinfectantData = new AutomatedDisinfectantData({
         userId,
         feedback,
         position,
         orientation,
-        map_image: uniqueMapImageId,
-        object_image,
+        map_image: mapImagesBuffer,
+        object_image_name,
         object_feedback,
       });
 
       await disinfectantData.save();
-      //console.log("Automated Disinfectant data is:", disinfectantData);
       return res.status(201).json({
         success: true,
         message: "Automated Disinfectant data saved successfully.",
@@ -192,7 +188,6 @@ export const saveMappingData = async (req, res) => {
       });
     }
   } catch (error) {
-    //console.error("Error saving mapping data:", error.message);
     return res.status(500).json({
       success: false,
       message: "An error occurred while saving mapping data.",
