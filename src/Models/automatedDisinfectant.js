@@ -36,7 +36,7 @@ const automatedDisinfectantDataSchema = new mongoose.Schema(
       type: Buffer,
       required: true,
   }],
-    object_image: {
+    object_image_name: {
       type: String,
       required: true,
     },
