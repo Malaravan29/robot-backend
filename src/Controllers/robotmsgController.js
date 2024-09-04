@@ -7,19 +7,19 @@ export const createRobotmsg = async (req, res) => {
     const { robotId, emailId, message, camera_images, map_image } = req.body;
 
     // Validate required fields
-    if (!robotId || !emailId || !message || !camera_images || !map_image) {
-      return res.status(400).json({
-        success: false,
-        message: "All required fields must be provided.",
-      });
-    }
+    // if (!robotId || !emailId || !message || !camera_images || !map_image) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "All required fields must be provided.",
+    //   });
+    // }
 
-    if (!Array.isArray(camera_images) || camera_images.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Camera images must be provided as a non-empty array.",
-      });
-    }
+    // if (!Array.isArray(camera_images) || camera_images.length === 0) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Camera images must be provided as a non-empty array.",
+    //   });
+    // }
 
     // Create a new robot message entry
     const newRobotmsg = new Robotmsg({
