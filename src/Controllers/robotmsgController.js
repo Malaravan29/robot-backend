@@ -1,33 +1,49 @@
 import Robotmsg from "../Models/Robotmsg.js";
 import { robotemail } from "../utils/robotemail.js";
+// import { robotsms } from "../utils/robotsms.js";
+// import { robotwats } from "../utils/robotwats.js";
 
 // Create a new robot message entry
 export const createRobotmsg = async (req, res) => {
   try {
-    const { robotId, emailId, message, camera_images, map_image } = req.body;
+    const {
+      robotId,
+      emailId,
+      message,
+      camera_image1,
+      camera_image2,
+      camera_image3,
+      camera_image4,
+      map_image,
+    } = req.body;
 
     // Validate required fields
-    // if (!robotId || !emailId || !message || !camera_images || !map_image) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "All required fields must be provided.",
-    //   });
-    // }
-
-    // if (!Array.isArray(camera_images) || camera_images.length === 0) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Camera images must be provided as a non-empty array.",
-    //   });
-    // }
+    if (
+      !robotId ||
+      !emailId ||
+      !message ||
+      !camera_image1 ||
+      !camera_image2 ||
+      !camera_image3 ||
+      !camera_image4 ||
+      !map_image
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "All required fields must be provided.",
+      });
+    }
 
     // Create a new robot message entry
     const newRobotmsg = new Robotmsg({
       robotId,
       emailId,
       message,
-      camera_images, // Save array of images
-      map_image,
+      camera_image1,
+      camera_image2,
+      camera_image3,
+      camera_image4,
+      map_image, // Directly use the base64 encoded image data
     });
 
     // Save the robot message entry to the database
@@ -39,9 +55,24 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
-      camera_images,
-      map_image
+      camera_image1,
+      camera_image2,
+      camera_image3,
+      camera_image4,
+      map_image // Pass the camera_image here
     );
+
+    // //  to send SMS
+    // await robotsms(
+    //   "+918056824497", 
+    //   `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
+    // );
+
+    // //  to send wats
+    // await robotwats(
+    //   "+918056824497", 
+    //   `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
+    // );
 
     res.status(201).json({
       success: true,
