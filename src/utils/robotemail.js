@@ -69,11 +69,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const robotemail = async (recipient, robotId, emailId, message ,camera_image1) => {
+export const robotemail = async (recipient, robotId, emailId, message ,camera_image1,camera_image2) => {
   try {
     // Convert base64 strings to buffers
     const imageBuffers = [
       { filename: 'camera_image1.jpg', content: Buffer.from(camera_image1, 'base64') },
+      { filename: 'camera_image2.jpg', content: Buffer.from(camera_image2, 'base64') },
     ];
  
     await transporter.sendMail({
