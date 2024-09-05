@@ -14,6 +14,7 @@ import robot from './src/Routes/robot.js'
 import robotmsgRoutes from "./src/Routes/robotmsgRoutes.js"
 import Manual from "./src/Routes/manualroute.js"
 import singleMap from "./src/Routes/singleMap.js"
+import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -21,7 +22,8 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json({ limit: "20mb" }));
+app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
 app.use(verifyToken); // Ensure token verification middleware is used correctly
 
 //Routes
