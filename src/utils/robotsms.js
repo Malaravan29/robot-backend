@@ -4,16 +4,20 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+console.log("TWILIO_ACCOUNT_SID:", process.env.TWILIO_ACCOUNT_SID);
+console.log("TWILIO_AUTH_TOKEN:", process.env.TWILIO_AUTH_TOKEN);
 
-export const sendTestSMS = async () => {
+export const robotsms = async (to, body) => {
   try {
     const message = await client.messages.create({
       body: body,
       from: process.env.TWILIO_PHONE_NUMBER,
-      to: to 
+      to: to
     });
-    console.log('Test SMS sent successfully:', message.sid);
+
+    console.log("SMS sent successfully:", message.sid);
   } catch (error) {
-    console.error('Error sending test SMS:', error);
+    console.error("Error sending SMS:", error);
+    throw error;
   }
 };
