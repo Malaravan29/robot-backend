@@ -2,6 +2,7 @@ import Robotmsg from "../Models/Robotmsg.js";
 import { robotemail } from "../utils/robotemail.js";
 // import { robotsms } from "../utils/robotsms.js";
 
+
 // Create a new robot message entry
 export const createRobotmsg = async (req, res) => {
   try {
@@ -9,13 +10,15 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
+      camera_image1,
     } = req.body;
 
     // Validate required fields
     if (
       !robotId ||
       !emailId ||
-      !message
+      !message||
+      !camera_image1 
     ) {
       return res.status(400).json({
         success: false,
@@ -28,6 +31,7 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
+      camera_image1
     });
 
     // Save the robot message entry to the database
@@ -39,6 +43,7 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
+      camera_image1
     );
 
     // //  to send SMS
