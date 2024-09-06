@@ -22,8 +22,8 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json({ limit: "20mb" }));
-app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
+app.use(bodyParser.json({ limit: "100mb" }));
+app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
 app.use(verifyToken); // Ensure token verification middleware is used correctly
 
 //Routes
