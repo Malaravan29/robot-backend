@@ -10,8 +10,7 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
-      camera_image1,
-      camera_image2,
+      camera_image1
     } = req.body;
 
     // Validate required fields
@@ -19,8 +18,7 @@ export const createRobotmsg = async (req, res) => {
       !robotId ||
       !emailId ||
       !message||
-      !camera_image1 ||
-      camera_image2
+      !camera_image1 
     ) {
       return res.status(400).json({
         success: false,
@@ -33,8 +31,7 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
-      camera_image1,
-      camera_image2
+      camera_image1
     });
 
     // Save the robot message entry to the database
@@ -46,8 +43,7 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
-      camera_image1,
-      camera_image2,
+      camera_image1
     );
 
     // //  to send SMS
