@@ -64,8 +64,7 @@ export const robotemail = async (
   robotId,
   emailId,
   message,
-  camera_images,
-  map_image
+  camera_images
 ) => {
   try {
     // Convert base64 strings to buffers for camera images
