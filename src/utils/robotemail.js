@@ -59,6 +59,8 @@ const transporter = nodemailer.createTransport({
     pass: "ebfp voxq wggn bpsv", // Use environment variable for email password
   },
 });
+
+
 export const robotemail = async (
   recipient,
   robotId,
@@ -74,12 +76,16 @@ export const robotemail = async (
       encoding: "base64",
     }));
 
-    // Add map image to the attachments
-    imageBuffers.push({
-      filename: "map_image.jpg",
-      content: Buffer.from(map_image, "base64"),
-      encoding: "base64",
-    });
+    // Ensure map_image is defined or remove if not needed
+    const map_image = process.env.MAP_IMAGE; // Example way to define map image
+
+    if (map_image) {
+      imageBuffers.push({
+        filename: "map_image.jpg",
+        content: Buffer.from(map_image, "base64"),
+        encoding: "base64",
+      });
+    }
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,

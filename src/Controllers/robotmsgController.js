@@ -71,6 +71,9 @@
 //   }
 // };
 
+//////////////////////////////////////////////////
+
+
 import Robotmsg from "../Models/Robotmsg.js";
 import { robotemail } from "../utils/robotemail.js";
 
@@ -107,7 +110,7 @@ export const createRobotmsg = async (req, res) => {
 
     // Send email with the robot message details and image attachment
     await robotemail(
-      "karthikeyanvijay70@gmail.com",
+    "malaravanmanimaran@gmail.com",
       robotId,
       emailId,
       message,
