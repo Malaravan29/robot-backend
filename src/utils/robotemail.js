@@ -1,3 +1,4 @@
+
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
@@ -16,27 +17,15 @@ export const robotemail = async (
   robotId,
   emailId,
   message,
-  camera_images,
-  map_image
+  camera_map_images
 ) => {
   try {
     // Convert base64 strings to buffers for camera images
-    const imageBuffers = camera_images.map((image, index) => ({
+    const imageBuffers =  camera_map_images.map((image, index) => ({
       filename: `camera_image_${index + 1}.jpg`,
       content: Buffer.from(image, "base64"),
       encoding: "base64",
     }));
-
-    // Ensure map_image is defined or remove if not needed
-    // const map_image = process.env.MAP_IMAGE; // Example way to define map image
-
-    if (map_image) {
-      imageBuffers.push({
-        filename: "map_image.jpg",
-        content: Buffer.from(map_image, "base64"),
-        encoding: "base64",
-      });
-    }
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,

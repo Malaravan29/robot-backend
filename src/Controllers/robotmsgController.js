@@ -4,17 +4,17 @@ import { robotemail } from "../utils/robotemail.js";
 // Create a new robot message entry
 export const createRobotmsg = async (req, res) => {
   try {
-    const { robotId, emailId, message, camera_images ,  map_image } = req.body;
+    const { robotId, emailId, message,  camera_map_images } = req.body;
 
     // Validate required fields
-    if (!robotId || !emailId || !message || !camera_images || !map_image ) {
+    if (!robotId || !emailId || !message || ! camera_map_images ) {
       return res.status(400).json({
         success: false,
         message: "All required fields must be provided.",
       });
     }
 
-    if (!Array.isArray(camera_images) || camera_images.length === 0) {
+    if (!Array.isArray( camera_map_images) ||  camera_map_images.length === 0) {
       return res.status(400).json({
         success: false,
         message: "Camera images must be provided as a non-empty array.",
@@ -26,8 +26,7 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
-      camera_images, // Save array of images
-      map_image,
+      camera_map_images, // Save array of images
     });
 
     // Save the robot message entry to the database
@@ -39,8 +38,7 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
-      camera_images,
-      map_image
+      camera_map_images
     );
 
     res.status(201).json({
