@@ -22,7 +22,7 @@ export const robotemail = async (
   try {
     // Convert base64 strings to buffers for camera images
     const imageBuffers =  camera_map_images.map((image, index) => ({
-      filename: `camera_image_${index + 1}.jpg`,
+      filename: `camera_map_images_${index + 1}.jpg`,
       content: Buffer.from(image, "base64"),
       encoding: "base64",
     }));
