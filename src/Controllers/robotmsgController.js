@@ -1,89 +1,13 @@
-// import Robotmsg from "../Models/Robotmsg.js";
-// import { robotemail } from "../utils/robotemail.js";
-// // import { robotsms } from "../utils/robotsms.js";
-
-
-// // Create a new robot message entry
-// export const createRobotmsg = async (req, res) => {
-//   try {
-//     const {
-//       robotId,
-//       emailId,
-//       message,
-//       camera_image1,
-//       camera_image2,
-//     } = req.body;
-
-//     // Validate required fields
-//     if (
-//       !robotId ||
-//       !emailId ||
-//       !message||
-//       !camera_image1 ||
-//       camera_image2
-//     ) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "All required fields must be provided.",
-//       });
-//     }
-
-//     // Create a new robot message entry
-//     const newRobotmsg = new Robotmsg({
-//       robotId,
-//       emailId,
-//       message,
-//       camera_image1,
-//       camera_image2
-//     });
-
-//     // Save the robot message entry to the database
-//     const savedRobotmsg = await newRobotmsg.save();
-
-//     // Send email with the robot message details and image attachment
-//     await robotemail(
-//       "malaravanmanimaran@gmail.com",
-//       robotId,
-//       emailId,
-//       message,
-//       camera_image1,
-//       camera_image2,
-//     );
-
-//     // //  to send SMS
-//     // await robotsms(
-//     //   "+918056824497", 
-//     //   `New Robot Message Details:\nRobot ID: ${robotId}\nMessage: ${message}`
-//     // );
-
-//     res.status(201).json({
-//       success: true,
-//       data: savedRobotmsg,
-//       message: "Robot message created and email sent successfully",
-//     });
-//   } catch (error) {
-//     console.error("Error creating robot message:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Failed to create robot message",
-//       error: error.message,
-//     });
-//   }
-// };
-
-//////////////////////////////////////////////////
-
-
 import Robotmsg from "../Models/Robotmsg.js";
 import { robotemail } from "../utils/robotemail.js";
 
 // Create a new robot message entry
 export const createRobotmsg = async (req, res) => {
   try {
-    const { robotId, emailId, message, camera_images } = req.body;
+    const { robotId, emailId, message, camera_images ,  map_image } = req.body;
 
     // Validate required fields
-    if (!robotId || !emailId || !message || !camera_images ) {
+    if (!robotId || !emailId || !message || !camera_images || !map_image ) {
       return res.status(400).json({
         success: false,
         message: "All required fields must be provided.",
@@ -103,6 +27,7 @@ export const createRobotmsg = async (req, res) => {
       emailId,
       message,
       camera_images, // Save array of images
+      map_image,
     });
 
     // Save the robot message entry to the database
@@ -114,7 +39,8 @@ export const createRobotmsg = async (req, res) => {
       robotId,
       emailId,
       message,
-      camera_images
+      camera_images,
+      map_image
     );
 
     res.status(201).json({
