@@ -13,9 +13,9 @@ const robotmsgSchema = new MongooseSchema({
     type: String,
     required: true
   },
-  
-  camera_images: [{ type: String, required: true }],
 
+  camera_images: [{ type: String, required: true }],
+  
   createdAt: {
     type: Date,
     default: Date.now

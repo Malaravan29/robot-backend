@@ -7,25 +7,28 @@ export const saveRobotDetails = async (req, res) => {
     const {
       robotId,
       emailId,
-      name,
+      username,
       model,
       serialNumber,
+      IPAddress,
       image,
       status,
       location,
+      robotInitializeDate,
       lastMaintenanceDate,
-      
     } = req.body;
 
     const robot = new Robot({
       robotId,
       emailId,
-      name,
+      username,
       model,
       serialNumber,
+      IPAddress,
       image,
       status,
       location,
+      robotInitializeDate,
       lastMaintenanceDate,
     });
 
