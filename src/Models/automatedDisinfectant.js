@@ -32,10 +32,10 @@ const automatedDisinfectantDataSchema = new mongoose.Schema(
     position: [vectorSchema],
     orientation: [orientationSchema],
     date: { type: Date, default: Date.now },
-    map_image: [{
+    map_image: {
       type: Buffer,
       required: true,
-  }],
+    },
     object_image_name: {
       type: String,
       required: true,
@@ -56,3 +56,4 @@ const AutomatedDisinfectantData = mongoose.model(
 );
 
 export default AutomatedDisinfectantData;
+//disinfection

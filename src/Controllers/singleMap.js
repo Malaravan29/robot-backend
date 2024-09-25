@@ -1,7 +1,6 @@
 import StartMappingData from "../Models/Mapping.js";
 import History from "../Models/History.js";
 import AutomatedDisinfectantData from "../Models/automatedDisinfectant.js";
-
 const ROBOT_IDS = [
   "0001",
   "0002",
@@ -27,7 +26,7 @@ export const saveMappingData = async (req, res) => {
       angular_velocity = [],
       current_position = [],
       current_orientation = [],
-      map_image = [],
+      map_image,
       completion_command,
       map_name,
       timeTaken,
@@ -38,6 +37,8 @@ export const saveMappingData = async (req, res) => {
       object_image_name,
       object_feedback,
     } = req.body;
+
+    console.log("user request body:", req.body);
 
     if (
       !mode ||
@@ -80,7 +81,7 @@ export const saveMappingData = async (req, res) => {
         });
       }
 
-      const mapImageBuffer = Buffer.from(map_image, "binary");
+      const imageBase64 = Buffer.from(map_image, "base64").toString("base64");
 
       const startMappingData = new StartMappingData({
         userId,
@@ -90,7 +91,7 @@ export const saveMappingData = async (req, res) => {
         angular_velocity,
         current_position,
         current_orientation,
-        map_image: mapImageBuffer,
+        map_image: imageBase64,
         completion_command,
         map_name,
         timeTaken,
@@ -99,6 +100,7 @@ export const saveMappingData = async (req, res) => {
       });
 
       await startMappingData.save();
+      //console.log("start mapping data is:", startMappingData);
       return res.status(201).json({
         success: true,
         message: "Automatic mapping data saved successfully.",
@@ -125,14 +127,14 @@ export const saveMappingData = async (req, res) => {
         });
       }
 
-      const mapImageBuffer = Buffer.from(map_image, "binary");
+      const imageBase64 = Buffer.from(map_image, "base64").toString("base64");
 
       const history = new History({
         userId,
         robotId,
         robotName,
         mapName: map_name,
-        image: mapImageBuffer,
+        image: imageBase64,
         timeTaken,
         percentCompleted: percentageCompleted,
         status,
@@ -143,6 +145,7 @@ export const saveMappingData = async (req, res) => {
       });
 
       await history.save();
+      console.log("manual mapping data is:", history);
       return res.status(201).json({
         success: true,
         message: "Manual mapping data saved successfully.",
@@ -154,7 +157,7 @@ export const saveMappingData = async (req, res) => {
         !feedback ||
         !position ||
         !orientation ||
-        !map_image.length ||
+        !map_image ||
         !object_image_name ||
         !object_feedback
       ) {
@@ -164,23 +167,19 @@ export const saveMappingData = async (req, res) => {
             "Missing required fields or invalid data types for Automated Disinfectant mode.",
         });
       }
-
-      const mapImagesBuffer = map_image.map((image) =>
-        Buffer.from(image, "binary")
-      );
-      // const objectImageBuffer = Buffer.from(object_image_name, "binary");
-
+      const imageBase = Buffer.from(map_image, "base64").toString("base64");
       const disinfectantData = new AutomatedDisinfectantData({
         userId,
         feedback,
         position,
         orientation,
-        map_image: mapImagesBuffer,
+        map_image: imageBase,
         object_image_name,
         object_feedback,
       });
 
       await disinfectantData.save();
+      console.log("Automated Disinfectant data is:", disinfectantData);
       return res.status(201).json({
         success: true,
         message: "Automated Disinfectant data saved successfully.",
@@ -188,9 +187,127 @@ export const saveMappingData = async (req, res) => {
       });
     }
   } catch (error) {
+    //console.error("Error saving mapping data:", error.message);
     return res.status(500).json({
       success: false,
       message: "An error occurred while saving mapping data.",
+      error: error.message,
+    });
+  }
+};
+
+
+export const deleteMappingData = async (req, res) => {
+  try {
+    const { mode, map_name } = req.body;
+
+   
+    if (!mode || !map_name) {
+      return res.status(400).json({
+        success: false,
+        message: "Mode and map_name are required fields.",
+      });
+    }
+
+    
+    if (
+      mode !== "automatic" &&
+      mode !== "manual" &&
+      mode !== "AutomatedDisinfectant"
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid mode. Expected 'automatic', 'manual', or 'AutomatedDisinfectant'.",
+      });
+    }
+
+    let deletedData;
+    
+    
+    if (mode === "automatic") {
+      deletedData = await StartMappingData.findOneAndDelete({ map_name });
+    } else if (mode === "manual") {
+      deletedData = await History.findOneAndDelete({ mapName: map_name });
+    } else if (mode === "AutomatedDisinfectant") {
+      deletedData = await AutomatedDisinfectantData.findOneAndDelete({
+        object_image_name: map_name,
+      });
+    }
+
+    if (!deletedData) {
+      return res.status(404).json({
+        success: false,
+        message: "Mapping data not found for the specified map_name.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Mapping data deleted successfully.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while deleting the mapping data.",
+      error: error.message,
+    });
+  }
+};
+
+
+export const getAutomaticMapping = async (req, res) => {
+  try {
+    const data = await StartMappingData.find();
+    return res.status(200).json({
+      success: true,
+      data: data.map((entry) => ({
+        ...entry._doc,
+        map_image: `data:image/png;base64,${entry.map_image}`,
+      })),
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching start mapping data.",
+      error: error.message,
+    });
+  }
+};
+
+export const getManualMapping = async (req, res) => {
+  try {
+    const data = await History.find();
+    return res.status(200).json({
+      success: true,
+      data: data.map((entry) => ({
+        ...entry._doc,
+        image: `data:image/png;base64,${entry.image}`, // Update here
+      })),
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching history data.",
+      error: error.message,
+    });
+  }
+};
+
+export const getAutomaticDisinfectMapping = async (req, res) => {
+  try {
+    const data = await AutomatedDisinfectantData.find();
+    return res.status(200).json({
+      success: true,
+      data: data.map((entry) => ({
+        ...entry._doc,
+        map_image: `data:image/png;base64,${entry.map_image}`,
+      })),
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching automated disinfectant data.",
       error: error.message,
     });
   }

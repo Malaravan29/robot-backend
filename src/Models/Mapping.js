@@ -17,9 +17,8 @@ const orientationSchema = new Schema(
     z: { type: Number, required: true },
     w: { type: Number, required: true },
   },
-  { _id: false } 
+  { _id: false }
 );
-
 
 const startMappingDataSchema = new Schema(
   {
@@ -31,13 +30,13 @@ const startMappingDataSchema = new Schema(
       type: String,
       required: true,
     },
-    
+
     feedback: { type: String, required: true },
     linear_velocity: [vectorSchema],
     angular_velocity: [vectorSchema],
     current_position: [vectorSchema],
     current_orientation: [orientationSchema],
-    map_image: { type: String, required: true },
+    map_image: { type: Buffer, required: true },
     map_name: { type: String, required: true },
     completion_command: { type: String, required: true },
     date: { type: Date, default: Date.now },
@@ -53,3 +52,4 @@ const StartMappingData = mongoose.model(
   startMappingDataSchema
 );
 export default StartMappingData;
+//automatic
