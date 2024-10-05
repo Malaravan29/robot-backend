@@ -14,6 +14,8 @@ import robot from './src/Routes/robot.js'
 import robotmsgRoutes from "./src/Routes/robotmsgRoutes.js"
 import Manual from "./src/Routes/manualroute.js"
 import singleMap from "./src/Routes/singleMap.js"
+import robotVersions from './src/Routes/robotVersions.js';
+
 import bodyParser from "body-parser";
 
 dotenv.config();
@@ -37,6 +39,7 @@ app.use('/history', history);
 app.use('/', robot);
 app.use('/', robotmsgRoutes);
 app.use('/', Manual);
+app.use('/', robotVersions);
 
 
 
