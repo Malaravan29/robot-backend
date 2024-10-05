@@ -2,16 +2,12 @@ import User from '../Models/User.js';
 
 export const getUserDetails = async (req, res) => {
   try {
-    //const { id } = req.params; // Extract id from route parameters
     const userId = req.user.id;
-    // Find user by ID
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    // Send user details (omit sensitive information)
-     
+    // Send user details 
     const userDetails = {
       name: user.name,
       email: user.email,

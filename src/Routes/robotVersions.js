@@ -6,7 +6,7 @@ const router = Router();
 
 
 // Route to get all robot details (GET request)
-router.get('/metadata/:emailId', verifyToken, getRobotDetailsByEmailId);
+router.get('/metadata/details', verifyToken, getRobotDetailsByEmailId);
 
 
 
