@@ -8,24 +8,33 @@ export const saveRobotAnalytics = async (req, res) => {
       emailId,
       model,
       batteryPercentage,
-      analytics: { batteryRunningTime, motorRunningTime, uvLightRunningTime }, // Expecting these in hh:mm:ss format
-      startingTime,
-      endingTime,
+      analytics: {
+        batteryRunningTime: { startingTime: batteryStartTime, endingTime: batteryEndTime },
+        motorRunningTime: { startingTime: motorStartTime, endingTime: motorEndTime },
+        uvLightRunningTime: { startingTime: uvLightStartTime, endingTime: uvLightEndTime },
+      },
     } = req.body;
 
-    // Create new instance of RobotAnalytics
+    // Create a new instance of RobotAnalytics
     const robotAnalytics = new RobotAnalytics({
       robotId,
       emailId,
       model,
       batteryPercentage,
       analytics: {
-        batteryRunningTime, // Storing as a string in hh:mm:ss format
-        motorRunningTime,
-        uvLightRunningTime,
+        batteryRunningTime: {
+          startingTime: batteryStartTime,
+          endingTime: batteryEndTime
+        },
+        motorRunningTime: {
+          startingTime: motorStartTime,
+          endingTime: motorEndTime
+        },
+        uvLightRunningTime: {
+          startingTime: uvLightStartTime,
+          endingTime: uvLightEndTime
+        },
       },
-      startingTime,
-      endingTime,
     });
 
     // Save the robot analytics data to the database

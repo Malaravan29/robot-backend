@@ -1,5 +1,8 @@
 import { Schema as MongooseSchema, model } from "mongoose";
 
+// Regular expression to validate hh:mm:ss format in 24-hour time
+const timeRegex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+
 // Define schema for robot analytics
 const RobotAnalyticsSchema = new MongooseSchema({
   robotId: {
@@ -25,28 +28,59 @@ const RobotAnalyticsSchema = new MongooseSchema({
   },
   analytics: {
     batteryRunningTime: {
-      type: String, // Store as hh:mm:ss format
-      required: true,
-      default: "00:00:00", // Default to 0 hours, 0 minutes, 0 seconds
+      startingTime: {
+        type: String, // Store time as a string in hh:mm:ss format
+        required: true,
+        validate: {
+          validator: (v) => timeRegex.test(v),
+          message: (props) => `${props.value} is not a valid time format (hh:mm:ss)!`,
+        },
+      },
+      endingTime: {
+        type: String, // Store time as a string in hh:mm:ss format
+        required: true,
+        validate: {
+          validator: (v) => timeRegex.test(v),
+          message: (props) => `${props.value} is not a valid time format (hh:mm:ss)!`,
+        },
+      },
     },
     motorRunningTime: {
-      type: String, // Store as hh:mm:ss format
-      required: true,
-      default: "00:00:00",
+      startingTime: {
+        type: String, // Store time as a string in hh:mm:ss format
+        required: true,
+        validate: {
+          validator: (v) => timeRegex.test(v),
+          message: (props) => `${props.value} is not a valid time format (hh:mm:ss)!`,
+        },
+      },
+      endingTime: {
+        type: String, // Store time as a string in hh:mm:ss format
+        required: true,
+        validate: {
+          validator: (v) => timeRegex.test(v),
+          message: (props) => `${props.value} is not a valid time format (hh:mm:ss)!`,
+        },
+      },
     },
     uvLightRunningTime: {
-      type: String, // Store as hh:mm:ss format
-      required: true,
-      default: "00:00:00",
+      startingTime: {
+        type: String, // Store time as a string in hh:mm:ss format
+        required: true,
+        validate: {
+          validator: (v) => timeRegex.test(v),
+          message: (props) => `${props.value} is not a valid time format (hh:mm:ss)!`,
+        },
+      },
+      endingTime: {
+        type: String, // Store time as a string in hh:mm:ss format
+        required: true,
+        validate: {
+          validator: (v) => timeRegex.test(v),
+          message: (props) => `${props.value} is not a valid time format (hh:mm:ss)!`,
+        },
+      },
     },
-  },
-  startingTime: {
-    type: Date,
-    required: true,  // Starting time of the task or activity
-  },
-  endingTime: {
-    type: Date,
-    required: true,  // Ending time of the task or activity
   },
 });
 
