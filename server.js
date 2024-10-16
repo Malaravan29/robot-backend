@@ -16,6 +16,7 @@ import Manual from "./src/Routes/manualroute.js"
 import singleMap from "./src/Routes/singleMap.js"
 import Appdetails from "./src/Routes/Appdetails.js";
 import robotanalytics from "./src/Routes/Analytics.js"
+import MODEAPI from "./src/Routes/MODEROUTES.js"
 
 
 import bodyParser from "body-parser";
@@ -43,6 +44,7 @@ app.use('/', robotmsgRoutes);
 app.use('/', Manual);
 app.use('/', Appdetails);
 app.use('/', robotanalytics);
+app.use('/V1', MODEAPI);
 
 
 
