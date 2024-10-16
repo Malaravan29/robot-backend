@@ -62,7 +62,7 @@ export const saveModeMappingData = async (req, res) => {
 
     // Validate required fields for the specific mode
     if (!validateRequestBody(req.body, modeFields[mode])) {
-      return res.status(400).json({ success: false, message: `Missing required fields for ${mode} mode.` });
+      return res.status(400).json({ success: false, message: `Missing required fields for ${mode} mode. `});
     }
 
     // Prepare data for saving
@@ -89,7 +89,7 @@ export const saveModeMappingData = async (req, res) => {
     const newMappingData = createMappingData(mode, data, userId);
     await newMappingData.save();
 
-    return res.status(201).json({ success: true, message: `${mode.charAt(0).toUpperCase() + mode.slice(1)} data saved successfully.` });
+    return res.status(201).json({ success: true, message: `${mode.charAt(0).toUpperCase() + mode.slice(1)} data saved successfully.`, data: newMappingData });
 
   } catch (error) {
     console.error("Error saving mapping data:", error);
@@ -131,7 +131,7 @@ export const getModeMappingData = async (req, res) => {
       message: `Data retrieved successfully for mode: ${mode}.`,
       data: data.map(entry => ({
         ...entry._doc,
-        map_image: `data:image/png;base64,${entry.map_image}`,
+        map_image:`data:image/png;base64,${entry.map_image}`,
       })),
     });
   } catch (error) {

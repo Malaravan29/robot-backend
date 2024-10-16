@@ -1,13 +1,12 @@
 // routes/robotRoutes.js
 
 import { Router } from 'express';
-import { getRobotDetails, saveRobotDetails , getRobotsByEmail} from '../Controllers/robotController.js';
+import { getRobotDetails , getRobotsByEmail} from '../Controllers/robotController.js';
 import { startMapping, saveMappingData,getListMaps} from "../Controllers/mapController.js"
 
 const router = Router();
 
 router.get('/robot/:robotId',getRobotDetails);
-router.post('/robot', saveRobotDetails);
 router.get('/robots',  getRobotsByEmail);
 
 //mapping api 

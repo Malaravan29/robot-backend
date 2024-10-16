@@ -1,45 +1,6 @@
 // src/Controllers/robotDetailsController.js
 import Robot from "../Models/Robot.js";
 
-// Controller to save robot details
-export const saveRobotDetails = async (req, res) => {
-  try {
-    const {
-      robotId,
-      emailId,
-      username,
-      model,
-      serialNumber,
-      IPAddress,
-      image,
-      status,
-      location,
-      robotInitializeDate,
-      lastMaintenanceDate,
-    } = req.body;
-
-    const robot = new Robot({
-      robotId,
-      emailId,
-      username,
-      model,
-      serialNumber,
-      IPAddress,
-      image,
-      status,
-      location,
-      robotInitializeDate,
-      lastMaintenanceDate,
-    });
-
-    await robot.save();
-
-    return res.json({ message: "Robot details saved successfully." });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-};
-
 // Controller to get robot 
 export const getRobotsByEmail = async (req, res) => {
   try {

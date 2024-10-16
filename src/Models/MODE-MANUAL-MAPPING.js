@@ -24,7 +24,7 @@ const historySchema = new Schema({
   map_image: { type: Buffer, required: true },
   map_name: { type: String, required: true },
   timeTaken: { type: String, required: true },
-  percentCompleted: { type: Number, required: true },
+  percentageCompleted: { type: Number, required: true },
   status: { type: String, required: true },
   linear_velocity: [vectorSchema],
   angular_velocity: [vectorSchema],
