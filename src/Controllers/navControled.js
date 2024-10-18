@@ -9,8 +9,6 @@ const getRobots = async (req, res) => {
   }
 };
 
- 
-
 const createRobot = async (req, res) => {
   const { robotName, mapName, image, timeTaken, percentCompleted, status, linear_velocity, angular_velocity, position, orientation } = req.body;
   if (!robotName || !mapName || !image || !timeTaken || !percentCompleted || !status || !linear_velocity || !angular_velocity || !position || !orientation) {

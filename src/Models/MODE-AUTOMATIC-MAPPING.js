@@ -24,6 +24,8 @@ const startMappingDataSchema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     mode: { type: String, required: true },
+    emailId:{type:String ,required:true},
+    robotId:{type:String,required:true},
     linear_velocity: [vectorSchema],
     angular_velocity: [vectorSchema],
     current_position: [vectorSchema],

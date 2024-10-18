@@ -21,6 +21,8 @@ const automatedDisinfectantDataSchema = new mongoose.Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     mode: { type: String, required: true },
+    emailId:{type:String ,required:true},
+    robotId:{type:String,required:true},
     feedback: {type: String,required: true,},
     position: [vectorSchema],
     orientation: [orientationSchema],

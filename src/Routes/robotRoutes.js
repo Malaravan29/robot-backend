@@ -11,8 +11,8 @@ router.get('/robots',  getRobotsByEmail);
 
 //mapping api 
 router.post("/start-mapping", startMapping);
+
 router.post("/save-robot-data", saveMappingData);
- 
 router.post("/save-mapping-data", saveMappingData);
 
 router.get("/get-list-maps", getListMaps);

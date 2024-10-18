@@ -21,6 +21,8 @@ const orientationSchema = new Schema(
 const historySchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   mode: { type: String, required: true },
+  emailId:{type:String ,required:true},
+  robotId:{type:String,required:true},
   map_image: { type: Buffer, required: true },
   map_name: { type: String, required: true },
   timeTaken: { type: String, required: true },
