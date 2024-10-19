@@ -17,6 +17,7 @@ import singleMap from "./src/Routes/singleMap.js"
 import Appdetails from "./src/Routes/Appdetails.js";
 import robotanalytics from "./src/Routes/Analytics.js"
 import MODEAPI from "./src/Routes/MODEROUTES.js"
+import Mappost from "./src/Routes/mappost.js"
 
 
 import bodyParser from "body-parser";
@@ -45,7 +46,7 @@ app.use('/', Manual);
 app.use('/', Appdetails);
 app.use('/', robotanalytics);
 app.use('/V1', MODEAPI);
-
+app.use('/', Mappost);
 
 
 
