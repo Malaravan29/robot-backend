@@ -66,46 +66,48 @@ export const saveMappingData = async (req, res) => {
 };
 
 export const getMappingData = async (req, res) => {
-    try {
-      const userId = req.user.id;
-      const { robotId } = req.query; 
+  const userId = req.user.id; 
+  const { robotId } = req.query;
+
   
-     
-      if (!robotId) {
-        return res.status(400).json({
-          success: false,
-          message: "robotId is required to retrieve mapping data.",
-        });
-      }
-  
-  
-      const data = await noMode.find({ userId, robotId });
-  
-     
-      if (data.length === 0) {
-        return res.status(200).json({
-          success: true,
-          message: `No mapping data found for robotId: ${robotId}. Please start mapping.`,
-          data: [],
-        });
-      }
-  
-      const mappedData = data.map((entry) => ({
-        ...entry._doc,
-        map_image: `data:image/png;base64,${entry.map_image.toString('base64')}`,
-      }));
-  
+  if (!robotId) {
+    return res.status(400).json({
+      success: false,
+      message: "robotId is required to retrieve mapping data.",
+    });
+  }
+
+  try {
+ 
+    const data = await noMode.find({ userId, robotId });
+
+    // Check if any data is found
+    if (data.length === 0) {
       return res.status(200).json({
         success: true,
-        message: `Data retrieved successfully for robotId: ${robotId}.`,
-        data: mappedData,
-      });
-    } catch (error) {
-      console.error("Error retrieving mapping data:", error);
-      return res.status(500).json({
-        success: false,
-        message: "An error occurred while retrieving mapping data.",
-        error: error.message,
+        message: `No mapping data found for robotId: ${robotId}. Please start mapping.`,
+        data: [],
       });
     }
-  };
+
+    
+    const mappedData = data.map((entry) => ({
+      ...entry._doc,
+      map_image: `data:image/png;base64,${entry.map_image.toString('base64')}`,
+    }));
+
+    
+    return res.status(200).json({
+      success: true,
+      message: `Data retrieved successfully for robotId: ${robotId}.`,
+      data: mappedData,
+    });
+  } catch (error) {
+  
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while retrieving mapping data.",
+      error: error.message,
+    });
+  }
+};

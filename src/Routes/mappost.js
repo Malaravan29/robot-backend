@@ -7,6 +7,7 @@ const router = Router();
 router.post("/map-mappings/save", saveMappingData);
 
 
-router.get("/get-map-mapping-data", getMappingData);
+router.get("/get-map-data", getMappingData);
 
 export default router;
+
